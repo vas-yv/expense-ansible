@@ -10,5 +10,5 @@
 
   - name: install nodejs
     ansible.builtin.dnf:
-    name: nodejs
-    state: installed   
+      name: nodejs
+      state: installed   
