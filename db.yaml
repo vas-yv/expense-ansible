@@ -1,4 +1,4 @@
-- name: configure DB
+- name: configure DB server
   hosts: db
   become: yes
   vars:
@@ -15,7 +15,7 @@
       name: mysql-server
       state: latest
 
-  - name: start and enable system services
+  - name: start and enable mysql services
     ansible.builtin.service:
       name: mysqld
       state: started
@@ -32,16 +32,16 @@
   - name: check db connection
     community.mysql.mysql_info:
       login_user: root
-      login_password: "{{mysql_root_password}}"
-      login_host: "{{login_host}}"
+      login_password: "{{ mysql_root_password }}"
+      login_host: "{{ login_host }}"
       filter: version
     ignore_errors: yes
     register: mysql_connection_output  
 
   - name: print output
     ansible.builtin.debug:
-      msg: "output {{mysql_connection_output}}"
+      msg: "output {{ mysql_connection_output }}"
 
   - name: setup root password
-    ansible.builtin.command: "mysql_secure_installation --set-root-pass {{mysql_root_password}}"
-    when: mysql_connection_ouput.failed is true
+    ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ mysql_root_password }}"
+    when: mysql_connection_output.failed is true
