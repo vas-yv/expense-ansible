@@ -9,17 +9,18 @@
       name: mysql-server
       state: latest
 
-- name: start and enable system services
-  ansible.builtin.service:
-    name: mysqld
-    state: started
-    enabled: yes
+  - name: start and enable system services
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
 
 # check password is already is setup or not
-- name: check db connection
-  community.mysql.mysql_db:
-    login_user: root
-    login_password: ExpenseApp@1
-    login_host: "{{login_host}}"
+  - name: check db connection
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: ExpenseApp@1
+      login_host: "{{login_host}}"
+      filter: version
 
   
